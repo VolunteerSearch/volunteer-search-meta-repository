@@ -1,0 +1,57 @@
+services:
+  mariadb:
+    image: mariadb
+    environment:
+      MARIADB_ROOT_PASSWORD: toor
+    # restart: always
+    volumes:
+      - mariadb:/var/lib/mysql:Z
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - database
+
+  user-service:
+    build: ./user-service
+    depends_on:
+      - mariadb
+    volumes: 
+      - VolunteerSearchVolume:/opt/VolunteerSearch
+    networks:
+      - database
+      - API
+    restart: always
+
+  auth-service:
+    build: ./auth-service
+    depends_on:
+      - user-service
+    volumes:
+      - VolunteerSearchVolume:/opt/VolunteerSearch
+    networks:
+      - API
+    restart: always
+  
+  frontend:
+    build: ./volunteer-search-frontend
+    ports:
+      - 3000:3000
+    depends_on:
+      - user-service
+    volumes:
+      - VolunteerSearchVolume:/opt/VolunteerSearch
+    networks:
+      - API
+    restart: always
+
+volumes:
+
+  VolunteerSearchVolume:
+
+  mariadb:
+
+networks:
+
+  database:
+  
+  API:
+
