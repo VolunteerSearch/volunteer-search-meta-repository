@@ -1,0 +1,9 @@
+[submodule "auth-service"]
+	path = auth-service
+	url = https://github.com/VolunteerSearch/auth-service
+[submodule "user-service"]
+	path = user-service
+	url = https://github.com/VolunteerSearch/user-service
+[submodule "volunteer-search-frontend"]
+	path = volunteer-search-frontend
+	url = https://github.com/VolunteerSearch/frontend
